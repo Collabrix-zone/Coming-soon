@@ -78,7 +78,7 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
       <section className="relative px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20 overflow-hidden" aria-labelledby="talent-heading">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12 lg:gap-20">
-            <div className="lg:col-span-8">
+            <div className="lg:col-span-8 min-w-0">
               <motion.p
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
