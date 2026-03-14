@@ -196,10 +196,16 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
     /* Improve text rendering */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3 {
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
 
   /* Ensure minimum touch target size for mobile accessibility */
@@ -287,6 +293,7 @@
 
 html {
   font-size: var(--font-size);
+  overflow-x: hidden;
   /* Enable smooth font scaling with browser zoom */
   -webkit-text-size-adjust: 100%;
   -moz-text-size-adjust: 100%;
