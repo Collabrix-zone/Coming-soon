@@ -61,12 +61,12 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
                 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.75rem)' }}
               >
                 Where{' '}
-                <span className="italic bg-gradient-to-br from-sky-600 to-sky-800 dark:from-sky-300 dark:to-sky-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-br from-sky-600 to-sky-800 dark:from-sky-300 dark:to-sky-500 bg-clip-text text-transparent">
                   Great Design
                 </span>
                 <br />
                 Meets{' '}
-                <span className="italic bg-gradient-to-br from-orange-500 to-orange-700 dark:from-orange-300 dark:to-orange-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-br from-orange-500 to-orange-700 dark:from-orange-300 dark:to-orange-500 bg-clip-text text-transparent">
                   Great Talent
                 </span>
               </motion.h1>

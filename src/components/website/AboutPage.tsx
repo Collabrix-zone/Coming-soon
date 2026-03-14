@@ -45,11 +45,11 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
                 style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)' }}
               >
                 We bridge the gap between{' '}
-                <span className="italic bg-gradient-to-br from-sky-600 to-sky-800 dark:from-sky-300 dark:to-sky-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-br from-sky-600 to-sky-800 dark:from-sky-300 dark:to-sky-500 bg-clip-text text-transparent">
                   Design
                 </span>{' '}
                 and{' '}
-                <span className="italic bg-gradient-to-br from-orange-500 to-orange-700 dark:from-orange-300 dark:to-orange-500 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-br from-orange-500 to-orange-700 dark:from-orange-300 dark:to-orange-500 bg-clip-text text-transparent">
                   Talent
                 </span>
               </motion.h1>

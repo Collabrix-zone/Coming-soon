@@ -72,7 +72,7 @@ export function ContactPage({ isDark }: ContactPageProps) {
             style={{ fontSize: 'clamp(1.75rem, 3vw, 2.5rem)' }}
           >
             Let's start a{' '}
-            <span className="italic bg-gradient-to-br from-sky-600 to-sky-800 dark:from-sky-300 dark:to-sky-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-br from-sky-600 to-sky-800 dark:from-sky-300 dark:to-sky-500 bg-clip-text text-transparent">
               conversation
             </span>
           </motion.h1>
