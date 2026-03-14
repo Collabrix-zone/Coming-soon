@@ -24,7 +24,7 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
     <>
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section
-        className="relative overflow-hidden px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-28 pb-0"
+        className="relative px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-28 pb-0"
         aria-labelledby="hero-heading"
       >
         {/* Decorative accent line */}
