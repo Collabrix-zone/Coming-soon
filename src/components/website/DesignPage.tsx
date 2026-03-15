@@ -1,5 +1,25 @@
 import { motion } from 'motion/react';
 import { Palette, Rocket, Target, Smartphone, Monitor, PenTool, CheckCircle2, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { Typewriter } from './Typewriter';
+import { MagneticWrapper } from './MagneticWrapper';
+import { InfiniteMarquee } from './InfiniteMarquee';
+import { TiltCard } from './TiltCard';
+import { WordReveal } from './WordReveal';
+
+const DESIGN_MARQUEE = [
+  'UX Research', 'Wireframing', 'Prototyping', 'Visual Design', 'Design Systems',
+  'Brand Identity', 'Mobile Design', 'Web Apps', 'Usability Testing',
+  'Typography', 'Color Systems', 'Interaction Design',
+];
+
+const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
+  id: i,
+  x: (i * 41 + 9) % 100,
+  y: (i * 53 + 17) % 100,
+  size: (i % 3) + 1.5,
+  duration: 4 + (i % 5),
+  delay: (i * 0.4) % 4,
+}));
 
 interface DesignPageProps {
   isDark: boolean;
@@ -69,17 +89,34 @@ export function DesignPage({ isDark, onNavigate }: DesignPageProps) {
     <>
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section className="relative px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20" aria-labelledby="design-heading">
+        {/* Floating particles */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+          {PARTICLES.map((p) => (
+            <motion.div
+              key={p.id}
+              className="absolute rounded-full bg-sky-600/20 dark:bg-sky-400/15"
+              style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size, height: p.size }}
+              animate={{ y: [0, -14, 0], opacity: [0.2, 0.6, 0.2] }}
+              transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
+            />
+          ))}
+        </div>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12 lg:gap-20">
             <div className="lg:col-span-8" style={{ minWidth: 0 }}>
-              <motion.p
+              <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="text-sm font-semibold tracking-widest uppercase opacity-50 mb-4"
+                className="flex items-center gap-2 mb-4"
               >
-                Design Services
-              </motion.p>
+                <span className="text-sm font-semibold tracking-widest uppercase opacity-50">Design Services</span>
+                <span className="opacity-30 text-sm">·</span>
+                <Typewriter
+                  words={['Digital Experiences', 'Brand Identities', 'Seamless Products', 'Intuitive Interfaces']}
+                  className="text-sm font-bold text-sky-600 dark:text-sky-400"
+                />
+              </motion.div>
               <motion.h1
                 id="design-heading"
                 initial={{ opacity: 0, y: 30 }}
@@ -99,13 +136,16 @@ export function DesignPage({ isDark, onNavigate }: DesignPageProps) {
                 </span>
               </motion.h1>
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.25 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.28 }}
                 className="text-lg sm:text-xl opacity-65 leading-relaxed mb-10 max-w-2xl"
               >
-                From initial concept to final pixel, every design decision we make is
-                intentional, research-backed, and crafted for real business impact.
+                <WordReveal
+                  text="From initial concept to final pixel, every design decision we make is intentional, research-backed, and crafted for real business impact."
+                  delay={0.3}
+                  stagger={0.04}
+                />
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -113,20 +153,24 @@ export function DesignPage({ isDark, onNavigate }: DesignPageProps) {
                 transition={{ duration: 0.8, delay: 0.35 }}
                 className="flex flex-wrap gap-4"
               >
-                <button
-                  onClick={() => onNavigate('contact')}
-                  className="group inline-flex items-center gap-3 px-7 py-4 bg-sky-800 dark:bg-sky-600 text-white rounded-2xl hover:bg-orange-600 dark:hover:bg-orange-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-semibold focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
-                >
-                  <span>Start Your Project</span>
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                </button>
-                <button
-                  onClick={() => onNavigate('work')}
-                  className="group inline-flex items-center gap-3 px-7 py-4 border-2 border-current/20 rounded-2xl hover:border-sky-600 dark:hover:border-sky-400 hover:text-sky-700 dark:hover:text-sky-400 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
-                >
-                  <span className="opacity-70 group-hover:opacity-100">View Design Work</span>
-                  <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
-                </button>
+                <MagneticWrapper>
+                  <button
+                    onClick={() => onNavigate('contact')}
+                    className="group inline-flex items-center gap-3 px-7 py-4 bg-sky-800 dark:bg-sky-600 text-white rounded-2xl hover:bg-orange-600 dark:hover:bg-orange-600 transition-all duration-300 hover:shadow-xl font-semibold focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
+                  >
+                    <span>Start Your Project</span>
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                  </button>
+                </MagneticWrapper>
+                <MagneticWrapper>
+                  <button
+                    onClick={() => onNavigate('work')}
+                    className="group inline-flex items-center gap-3 px-7 py-4 border-2 border-current/20 rounded-2xl hover:border-sky-600 dark:hover:border-sky-400 hover:text-sky-700 dark:hover:text-sky-400 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
+                  >
+                    <span className="opacity-70 group-hover:opacity-100">View Design Work</span>
+                    <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+                  </button>
+                </MagneticWrapper>
               </motion.div>
             </div>
 
@@ -158,6 +202,18 @@ export function DesignPage({ isDark, onNavigate }: DesignPageProps) {
         </div>
       </section>
 
+      {/* ── MARQUEE ───────────────────────────────────────────────────── */}
+      <div className={`py-5 border-y border-current/8 ${isDark ? 'bg-white/3' : 'bg-black/2'}`} aria-hidden="true">
+        <InfiniteMarquee speed={26}>
+          {DESIGN_MARQUEE.map((item) => (
+            <span key={item} className="inline-flex items-center gap-3 text-sm font-semibold tracking-widest uppercase opacity-35 mr-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-500 inline-block flex-shrink-0" />
+              {item}
+            </span>
+          ))}
+        </InfiniteMarquee>
+      </div>
+
       {/* ── SERVICES ──────────────────────────────────────────────────── */}
       <section className={`px-4 sm:px-6 lg:px-8 py-20 sm:py-28 border-t border-current/8 ${isDark ? 'bg-white/2' : 'bg-black/2'}`} aria-labelledby="services-heading">
         <div className="max-w-7xl mx-auto">
@@ -174,18 +230,21 @@ export function DesignPage({ isDark, onNavigate }: DesignPageProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {services.map((service, index) => (
-              <motion.article
+              <motion.div
                 key={service.title}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: (index % 3) * 0.08 }}
-                className={`group relative p-6 sm:p-8 rounded-2xl border transition-all duration-300 ${
-                  isDark
-                    ? 'bg-white/4 border-white/8 hover:bg-white/8 hover:border-sky-400/30'
-                    : 'bg-white/70 border-gray-100 hover:bg-white hover:border-sky-200 hover:shadow-lg'
-                }`}
+                className="group"
               >
+              <TiltCard className={`relative overflow-hidden p-6 sm:p-8 rounded-2xl border transition-all duration-300 h-full ${
+                  isDark
+                    ? `bg-white/4 border-white/8 hover:bg-white/8 ${service.accent === 'sky' ? 'hover:border-sky-400/30 hover:shadow-[0_16px_40px_-8px_rgba(14,165,233,0.18)]' : 'hover:border-orange-400/30 hover:shadow-[0_16px_40px_-8px_rgba(234,88,12,0.18)]'}`
+                    : `bg-white/70 border-gray-100 hover:bg-white hover:shadow-lg ${service.accent === 'sky' ? 'hover:border-sky-200 hover:shadow-[0_16px_40px_-8px_rgba(14,165,233,0.12)]' : 'hover:border-orange-200 hover:shadow-[0_16px_40px_-8px_rgba(234,88,12,0.12)]'}`
+                }`}>
+                {/* shimmer sweep */}
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/6 to-transparent pointer-events-none" aria-hidden="true" />
                 <div className="flex items-start justify-between mb-6">
                   <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${
                     service.accent === 'sky'
@@ -208,7 +267,8 @@ export function DesignPage({ isDark, onNavigate }: DesignPageProps) {
                     </li>
                   ))}
                 </ul>
-              </motion.article>
+              </TiltCard>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -232,18 +292,18 @@ export function DesignPage({ isDark, onNavigate }: DesignPageProps) {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {process.map((phase, index) => (
-              <motion.article
+              <motion.div
                 key={phase.step}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`relative overflow-hidden p-7 sm:p-9 rounded-2xl border ${
+              >
+              <TiltCard className={`group relative overflow-hidden p-7 sm:p-9 rounded-2xl border h-full ${
                   isDark
                     ? 'bg-white/4 border-white/8 hover:bg-white/7'
                     : 'bg-white/70 border-gray-100 hover:bg-white hover:shadow-md'
-                } transition-all duration-300`}
-              >
+                } transition-all duration-300`}>
                 <div className="absolute top-6 right-6 text-7xl font-bold opacity-[0.04] select-none leading-none">
                   {phase.step}
                 </div>
@@ -252,7 +312,8 @@ export function DesignPage({ isDark, onNavigate }: DesignPageProps) {
                   <h3 className="font-bold text-xl mb-3">{phase.title}</h3>
                   <p className="text-base opacity-65 leading-relaxed">{phase.description}</p>
                 </div>
-              </motion.article>
+              </TiltCard>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -284,13 +345,15 @@ export function DesignPage({ isDark, onNavigate }: DesignPageProps) {
               <p className="text-lg opacity-70 mb-10 leading-relaxed">
                 Tell us about your project and we'll get back to you within 24 hours with ideas and next steps.
               </p>
-              <button
-                onClick={() => onNavigate('contact')}
-                className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-sky-900 rounded-2xl hover:bg-orange-50 transition-all duration-300 hover:scale-105 font-semibold focus:outline-none focus:ring-4 focus:ring-white/50 min-h-[52px]"
-              >
-                <span>Start Your Project</span>
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-              </button>
+              <MagneticWrapper>
+                <button
+                  onClick={() => onNavigate('contact')}
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-sky-900 rounded-2xl hover:bg-orange-50 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-white/50 min-h-[52px]"
+                >
+                  <span>Start Your Project</span>
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                </button>
+              </MagneticWrapper>
             </div>
           </motion.div>
         </div>

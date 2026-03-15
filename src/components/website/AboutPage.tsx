@@ -1,5 +1,17 @@
 import { motion } from 'motion/react';
 import { Target, Users, Lightbulb, Heart, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { AnimatedCounter } from './AnimatedCounter';
+import { Typewriter } from './Typewriter';
+import { MagneticWrapper } from './MagneticWrapper';
+import { InfiniteMarquee } from './InfiniteMarquee';
+import { TiltCard } from './TiltCard';
+import { WordReveal } from './WordReveal';
+
+const ABOUT_MARQUEE = [
+  'Design-First', 'Client-Focused', 'Talent-Driven', 'Premium Quality',
+  'Fast Delivery', 'Strategic Thinking', 'Global Reach', 'Creative Excellence',
+  'Transparent Comms', 'Long-Term Partners', 'India-Based', 'Since 2022',
+];
 
 interface AboutPageProps {
   isDark: boolean;
@@ -28,14 +40,19 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
             <div className="lg:col-span-7" style={{ minWidth: 0 }}>
-              <motion.p
+              <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="text-sm font-semibold tracking-widest uppercase opacity-50 mb-4"
+                className="flex items-center gap-2 mb-4"
               >
-                About Collabrix
-              </motion.p>
+                <span className="text-sm font-semibold tracking-widest uppercase opacity-50">About Collabrix</span>
+                <span className="opacity-30 text-sm">·</span>
+                <Typewriter
+                  words={['Creative Partners', 'Talent Experts', 'Design Leaders', 'Your Studio']}
+                  className="text-sm font-bold text-sky-600 dark:text-sky-400"
+                />
+              </motion.div>
               <motion.h1
                 id="about-heading"
                 initial={{ opacity: 0, y: 30 }}
@@ -54,14 +71,16 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
                 </span>
               </motion.h1>
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.25 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.28 }}
                 className="text-lg sm:text-xl opacity-65 leading-relaxed max-w-xl"
               >
-                We're a premium studio that brings together exceptional UX/UI design 
-                and world-class talent acquisition under one roof—so businesses never 
-                have to choose between the two.
+                <WordReveal
+                  text="We're a premium studio that brings together exceptional UX/UI design and world-class talent acquisition under one roof—so businesses never have to choose between the two."
+                  delay={0.3}
+                  stagger={0.04}
+                />
               </motion.p>
             </div>
 
@@ -79,25 +98,40 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
                 { number: '50+', label: 'Clients', color: 'orange' },
                 { number: '98%', label: 'Satisfaction', color: 'sky' },
               ].map((stat) => (
-                <div
+                <motion.div
                   key={stat.label}
+                  whileHover={{ y: -3, scale: 1.03 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   className={`p-6 rounded-2xl border ${
-                    isDark ? 'bg-white/4 border-white/8' : 'bg-white/70 border-gray-100'
+                    isDark ? 'bg-white/4 border-white/8 hover:bg-white/8' : 'bg-white/70 border-gray-100 hover:shadow-md'
                   }`}
                 >
-                  <div className={`text-3xl sm:text-4xl font-bold mb-1 ${stat.color === 'sky' ? 'text-sky-600 dark:text-sky-400' : 'text-orange-600 dark:text-orange-400'}`}>
-                    {stat.number}
-                  </div>
-                  <div className="text-sm opacity-60 font-medium">{stat.label}</div>
-                </div>
+                  <AnimatedCounter
+                    value={stat.number}
+                    label={stat.label}
+                    numberClassName={`text-3xl sm:text-4xl font-bold ${stat.color === 'sky' ? 'text-sky-600 dark:text-sky-400' : 'text-orange-600 dark:text-orange-400'}`}
+                  />
+                </motion.div>
               ))}
             </motion.div>
           </div>
         </div>
       </section>
 
+      {/* ── MARQUEE ───────────────────────────────────────────────────── */}
+      <div className={`py-5 border-y border-current/8 ${isDark ? 'bg-white/3' : 'bg-black/2'}`} aria-hidden="true">
+        <InfiniteMarquee speed={30}>
+          {ABOUT_MARQUEE.map((item) => (
+            <span key={item} className="inline-flex items-center gap-3 text-sm font-semibold tracking-widest uppercase opacity-35 mr-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-500 inline-block flex-shrink-0" />
+              {item}
+            </span>
+          ))}
+        </InfiniteMarquee>
+      </div>
+
       {/* ── STORY ─────────────────────────────────────────────────────── */}
-      <section className={`px-4 sm:px-6 lg:px-8 py-16 sm:py-20 border-y border-current/8 ${isDark ? 'bg-white/2' : 'bg-black/2'}`} aria-labelledby="story-heading">
+      <section className={`px-4 sm:px-6 lg:px-8 py-16 sm:py-20 border-b border-current/8 ${isDark ? 'bg-white/2' : 'bg-black/2'}`} aria-labelledby="story-heading">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
             <div className="lg:col-span-4">
@@ -159,10 +193,10 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className={`relative p-6 sm:p-8 rounded-2xl border ${
-                  isDark ? 'bg-white/4 border-white/8' : 'bg-white/70 border-gray-100'
-                }`}
               >
+              <TiltCard className={`relative p-6 sm:p-8 rounded-2xl border h-full ${
+                  isDark ? 'bg-white/4 border-white/8' : 'bg-white/70 border-gray-100'
+                }`}>
                 {/* Connector line */}
                 {i < milestones.length - 1 && (
                   <div className="hidden lg:block absolute top-10 left-full w-6 h-px bg-current/15 z-10" aria-hidden="true" />
@@ -170,6 +204,7 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
                 <div className="text-4xl font-bold text-sky-600 dark:text-sky-400 opacity-30 mb-4 select-none">{m.year}</div>
                 <h3 className="font-bold text-lg mb-2">{m.title}</h3>
                 <p className="text-sm opacity-65 leading-relaxed">{m.description}</p>
+              </TiltCard>
               </motion.div>
             ))}
           </div>
@@ -192,18 +227,18 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {values.map((value, i) => (
-              <motion.article
+              <motion.div
                 key={value.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.08 }}
-                className={`flex gap-6 p-7 sm:p-8 rounded-2xl border transition-all duration-300 ${
+              >
+              <TiltCard className={`flex gap-6 p-7 sm:p-8 rounded-2xl border transition-all duration-300 h-full ${
                   isDark
                     ? 'bg-white/4 border-white/8 hover:bg-white/8 hover:border-white/15'
                     : 'bg-white/70 border-gray-100 hover:bg-white hover:border-gray-200 hover:shadow-md'
-                }`}
-              >
+                }`}>
                 <div className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center ${
                   value.accent === 'sky'
                     ? 'bg-sky-600/10 dark:bg-sky-400/10 text-sky-600 dark:text-sky-400'
@@ -215,7 +250,8 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
                   <h3 className="font-bold text-xl mb-2">{value.title}</h3>
                   <p className="text-base opacity-65 leading-relaxed">{value.description}</p>
                 </div>
-              </motion.article>
+              </TiltCard>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -321,13 +357,15 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
                 <p className="text-lg opacity-70 mb-8 max-w-xl mx-auto">
                   Let's talk about your design or hiring needs and craft a plan that works.
                 </p>
-                <button
-                  onClick={() => onNavigate('contact')}
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-sky-900 rounded-2xl hover:bg-orange-50 transition-all duration-300 hover:scale-105 font-semibold focus:outline-none focus:ring-4 focus:ring-white/50 min-h-[52px]"
-                >
-                  <span>Get in Touch</span>
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                </button>
+                <MagneticWrapper>
+                  <button
+                    onClick={() => onNavigate('contact')}
+                    className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-sky-900 rounded-2xl hover:bg-orange-50 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-white/50 min-h-[52px]"
+                  >
+                    <span>Get in Touch</span>
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                  </button>
+                </MagneticWrapper>
               </div>
             </motion.div>
           </div>

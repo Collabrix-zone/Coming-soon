@@ -1,7 +1,9 @@
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ReactNode, useEffect, useState } from 'react';
 import { Mail, Linkedin, Heart, Menu, X, Sun, Moon } from 'lucide-react';
 import { CollabrixLogo } from '../CollabrixLogo';
+import { ScrollProgressBar } from './ScrollProgressBar';
+import { CustomCursor } from './CustomCursor';
 
 interface WebsiteLayoutProps {
   children: ReactNode;
@@ -50,6 +52,8 @@ export function WebsiteLayout({
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-700">
+      <ScrollProgressBar />
+      <CustomCursor />
       {/* Skip to main content - WCAG AAA */}
       <a
         href="#main-content"
@@ -120,20 +124,23 @@ export function WebsiteLayout({
               
               {/* Desktop Navigation */}
               <div className="hidden lg:flex items-center gap-1">
-                {navLinks.map((link) => (
-                  <button
-                    key={link.path}
-                    onClick={() => onNavigate(link.path)}
-                    className={`px-4 py-2 rounded-lg text-base font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-600 dark:focus:ring-sky-400 ${
-                      currentPage === link.path
-                        ? 'text-sky-800 dark:text-sky-400 bg-sky-600/10 dark:bg-sky-400/10'
-                        : 'opacity-70 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5'
-                    }`}
-                    aria-current={currentPage === link.path ? 'page' : undefined}
-                  >
-                    {link.name}
-                  </button>
-                ))}
+                {navLinks.map((link) => {
+                  const isActive = currentPage === link.path || currentPage.startsWith(link.path + '/');
+                  return (
+                    <button
+                      key={link.path}
+                      onClick={() => onNavigate(link.path)}
+                      className={`px-4 py-2 rounded-lg text-base font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-600 dark:focus:ring-sky-400 ${
+                        isActive
+                          ? 'text-sky-800 dark:text-sky-400 bg-sky-600/10 dark:bg-sky-400/10'
+                          : 'opacity-70 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5'
+                      }`}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      {link.name}
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Theme toggle + Mobile menu */}
@@ -176,20 +183,23 @@ export function WebsiteLayout({
                 className="lg:hidden mt-4 pb-4 border-t border-current/10 pt-4"
               >
                 <div className="flex flex-col gap-2">
-                  {navLinks.map((link) => (
-                    <button
-                      key={link.path}
-                      onClick={() => onNavigate(link.path)}
-                      className={`px-4 py-3 rounded-lg text-base font-medium text-left transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[44px] ${
-                        currentPage === link.path
-                          ? 'text-sky-800 dark:text-sky-400 bg-sky-600/10 dark:bg-sky-400/10'
-                          : 'opacity-70 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5'
-                      }`}
-                      aria-current={currentPage === link.path ? 'page' : undefined}
-                    >
-                      {link.name}
-                    </button>
-                  ))}
+                  {navLinks.map((link) => {
+                    const isActive = currentPage === link.path || currentPage.startsWith(link.path + '/');
+                    return (
+                      <button
+                        key={link.path}
+                        onClick={() => onNavigate(link.path)}
+                        className={`px-4 py-3 rounded-lg text-base font-medium text-left transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[44px] ${
+                          isActive
+                            ? 'text-sky-800 dark:text-sky-400 bg-sky-600/10 dark:bg-sky-400/10'
+                            : 'opacity-70 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5'
+                        }`}
+                        aria-current={isActive ? 'page' : undefined}
+                      >
+                        {link.name}
+                      </button>
+                    );
+                  })}
                 </div>
               </motion.div>
             )}
@@ -198,7 +208,17 @@ export function WebsiteLayout({
 
         {/* Main Content */}
         <main id="main-content" role="main">
-          {children}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentPage}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
         </main>
 
         {/* Footer */}

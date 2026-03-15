@@ -1,6 +1,17 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import { Mail, Linkedin, MapPin, CheckCircle2, Send, Clock, MessageSquare, ArrowRight } from 'lucide-react';
+import { Typewriter } from './Typewriter';
+import { MagneticWrapper } from './MagneticWrapper';
+import { InfiniteMarquee } from './InfiniteMarquee';
+import { TiltCard } from './TiltCard';
+import { WordReveal } from './WordReveal';
+
+const CONTACT_MARQUEE = [
+  'Get in Touch', '24hr Response', 'Free Consultation', 'Design Projects',
+  'Talent Search', 'Global Clients', 'Since 2022', 'India-Based',
+  'No Commitment', 'Expert Team', 'Transparent Pricing', 'Trusted Studio',
+];
 
 interface ContactPageProps {
   isDark: boolean;
@@ -55,14 +66,19 @@ export function ContactPage({ isDark }: ContactPageProps) {
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section className="relative px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-28 pb-16 sm:pb-20" aria-labelledby="contact-heading">
         <div className="max-w-7xl mx-auto">
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-sm font-semibold tracking-widest uppercase opacity-50 mb-4"
+            className="flex items-center gap-2 mb-4"
           >
-            Contact
-          </motion.p>
+            <span className="text-sm font-semibold tracking-widest uppercase opacity-50">Contact</span>
+            <span className="opacity-30 text-sm">·</span>
+            <Typewriter
+              words={['Start a Conversation', 'Work With Us', 'Build Your Team', 'Launch Something Great']}
+              className="text-sm font-bold text-sky-600 dark:text-sky-400"
+            />
+          </motion.div>
           <motion.h1
             id="contact-heading"
             initial={{ opacity: 0, y: 30 }}
@@ -77,16 +93,31 @@ export function ContactPage({ isDark }: ContactPageProps) {
             </span>
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.25 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.28 }}
             className="text-lg sm:text-xl opacity-65 leading-relaxed max-w-2xl"
           >
-            Whether you have a project in mind, a team to build, or just want to explore 
-            what's possible — we'd love to hear from you.
+            <WordReveal
+              text="Whether you have a project in mind, a team to build, or just want to explore what's possible — we'd love to hear from you."
+              delay={0.3}
+              stagger={0.04}
+            />
           </motion.p>
         </div>
       </section>
+
+      {/* ── MARQUEE ───────────────────────────────────────────────────── */}
+      <div className={`py-5 border-y border-current/8 ${isDark ? 'bg-white/3' : 'bg-black/2'}`} aria-hidden="true">
+        <InfiniteMarquee speed={30}>
+          {CONTACT_MARQUEE.map((item) => (
+            <span key={item} className="inline-flex items-center gap-3 text-sm font-semibold tracking-widest uppercase opacity-35 mr-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-500 inline-block flex-shrink-0" />
+              {item}
+            </span>
+          ))}
+        </InfiniteMarquee>
+      </div>
 
       {/* ── MAIN CONTACT ──────────────────────────────────────────────── */}
       <section className="px-4 sm:px-6 lg:px-8 pb-20 sm:pb-28" aria-labelledby="form-heading">
@@ -244,23 +275,25 @@ export function ContactPage({ isDark }: ContactPageProps) {
                     </div>
 
                     {/* Submit */}
-                    <button
-                      type="submit"
-                      disabled={isSubmitting || !formData.name || !formData.email || !formData.message}
-                      className="group w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-sky-800 dark:bg-sky-600 text-white rounded-2xl hover:bg-orange-600 dark:hover:bg-orange-600 transition-all duration-300 font-semibold disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
-                          <span>Sending…</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Send Message</span>
-                          <Send size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true" />
-                        </>
-                      )}
-                    </button>
+                    <MagneticWrapper>
+                      <button
+                        type="submit"
+                        disabled={isSubmitting || !formData.name || !formData.email || !formData.message}
+                        className="group w-full inline-flex items-center justify-center gap-3 px-8 py-4 bg-sky-800 dark:bg-sky-600 text-white rounded-2xl hover:bg-orange-600 dark:hover:bg-orange-600 transition-all duration-300 font-semibold disabled:opacity-40 disabled:cursor-not-allowed focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" aria-hidden="true" />
+                            <span>Sending…</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Send Message</span>
+                            <Send size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" aria-hidden="true" />
+                          </>
+                        )}
+                      </button>
+                    </MagneticWrapper>
                   </form>
                 )}
               </div>
@@ -391,13 +424,14 @@ export function ContactPage({ isDark }: ContactPageProps) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.07 }}
-                className={`p-6 sm:p-7 rounded-2xl border ${isDark ? 'bg-white/4 border-white/8' : 'bg-white/70 border-gray-100'}`}
               >
-                <div className="flex items-start gap-3 mb-3">
-                  <CheckCircle2 size={18} className="text-sky-600 dark:text-sky-400 mt-0.5 flex-shrink-0" aria-hidden="true" />
-                  <h3 className="font-bold">{faq.q}</h3>
-                </div>
-                <p className="text-sm opacity-65 leading-relaxed pl-7">{faq.a}</p>
+                <TiltCard className={`p-6 sm:p-7 rounded-2xl border transition-all duration-300 h-full ${isDark ? 'bg-white/4 border-white/8 hover:bg-white/7' : 'bg-white/70 border-gray-100 hover:bg-white hover:shadow-md hover:shadow-sky-500/10'}`}>
+                  <div className="flex items-start gap-3 mb-3">
+                    <CheckCircle2 size={18} className="text-sky-600 dark:text-sky-400 mt-0.5 flex-shrink-0" aria-hidden="true" />
+                    <h3 className="font-bold">{faq.q}</h3>
+                  </div>
+                  <p className="text-sm opacity-65 leading-relaxed pl-7">{faq.a}</p>
+                </TiltCard>
               </motion.div>
             ))}
           </div>

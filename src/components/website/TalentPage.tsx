@@ -1,5 +1,17 @@
 import { motion } from 'motion/react';
 import { Users, Search, Briefcase, UserPlus, Target, TrendingUp, CheckCircle2, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { AnimatedCounter } from './AnimatedCounter';
+import { Typewriter } from './Typewriter';
+import { MagneticWrapper } from './MagneticWrapper';
+import { InfiniteMarquee } from './InfiniteMarquee';
+import { TiltCard } from './TiltCard';
+import { WordReveal } from './WordReveal';
+
+const TALENT_MARQUEE = [
+  'Tech Recruitment', 'Executive Search', 'Design Hiring', 'Engineering Teams',
+  'Product Managers', 'C-Suite Placement', 'Remote Hiring', 'Startup Scaling',
+  'Fortune 500', '21-Day Delivery', 'Full-Cycle Recruiting', 'Global Talent',
+];
 
 interface TalentPageProps {
   isDark: boolean;
@@ -79,14 +91,19 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-12 lg:gap-20">
             <div className="lg:col-span-8" style={{ minWidth: 0 }}>
-              <motion.p
+              <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="text-sm font-semibold tracking-widest uppercase opacity-50 mb-4"
+                className="flex items-center gap-2 mb-4"
               >
-                Talent Services
-              </motion.p>
+                <span className="text-sm font-semibold tracking-widest uppercase opacity-50">Talent Services</span>
+                <span className="opacity-30 text-sm">·</span>
+                <Typewriter
+                  words={['Elite Engineers', 'Creative Minds', 'Visionary Leaders', 'Perfect Teams']}
+                  className="text-sm font-bold text-orange-600 dark:text-orange-400"
+                />
+              </motion.div>
               <motion.h1
                 id="talent-heading"
                 initial={{ opacity: 0, y: 30 }}
@@ -106,13 +123,16 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
                 </span>
               </motion.h1>
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.25 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.28 }}
                 className="text-lg sm:text-xl opacity-65 leading-relaxed mb-10 max-w-2xl"
               >
-                Building exceptional teams that drive business success. We connect you with 
-                world-class talent and provide strategic HR solutions that scale with your ambition.
+                <WordReveal
+                  text="Building exceptional teams that drive business success. We connect you with world-class talent and provide strategic HR solutions that scale with your ambition."
+                  delay={0.3}
+                  stagger={0.04}
+                />
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -120,20 +140,24 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
                 transition={{ duration: 0.8, delay: 0.35 }}
                 className="flex flex-wrap gap-4"
               >
-                <button
-                  onClick={() => onNavigate('contact')}
-                  className="group inline-flex items-center gap-3 px-7 py-4 bg-orange-600 text-white rounded-2xl hover:bg-sky-800 dark:hover:bg-sky-600 transition-all duration-300 hover:scale-105 hover:shadow-xl font-semibold focus:outline-none focus:ring-4 focus:ring-orange-600 dark:focus:ring-orange-400 min-h-[52px]"
-                >
-                  <span>Find Your Talent</span>
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                </button>
-                <button
-                  onClick={() => onNavigate('work')}
-                  className="group inline-flex items-center gap-3 px-7 py-4 border-2 border-current/20 rounded-2xl hover:border-orange-600 dark:hover:border-orange-400 hover:text-orange-700 dark:hover:text-orange-400 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-orange-600 dark:focus:ring-orange-400 min-h-[52px]"
-                >
-                  <span className="opacity-70 group-hover:opacity-100">View Placements</span>
-                  <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
-                </button>
+                <MagneticWrapper>
+                  <button
+                    onClick={() => onNavigate('contact')}
+                    className="group inline-flex items-center gap-3 px-7 py-4 bg-orange-600 text-white rounded-2xl hover:bg-sky-800 dark:hover:bg-sky-600 transition-all duration-300 hover:shadow-xl font-semibold focus:outline-none focus:ring-4 focus:ring-orange-600 dark:focus:ring-orange-400 min-h-[52px]"
+                  >
+                    <span>Find Your Talent</span>
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                  </button>
+                </MagneticWrapper>
+                <MagneticWrapper>
+                  <button
+                    onClick={() => onNavigate('work')}
+                    className="group inline-flex items-center gap-3 px-7 py-4 border-2 border-current/20 rounded-2xl hover:border-orange-600 dark:hover:border-orange-400 hover:text-orange-700 dark:hover:text-orange-400 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-orange-600 dark:focus:ring-orange-400 min-h-[52px]"
+                  >
+                    <span className="opacity-70 group-hover:opacity-100">View Placements</span>
+                    <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+                  </button>
+                </MagneticWrapper>
               </motion.div>
             </div>
 
@@ -146,20 +170,36 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
               aria-label="Talent metrics"
             >
               {metrics.map((metric) => (
-                <div
+                <motion.div
                   key={metric.label}
-                  className={`p-5 rounded-2xl border ${isDark ? 'bg-white/4 border-white/8' : 'bg-white/70 border-gray-100'}`}
+                  whileHover={{ y: -3, scale: 1.03 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                  className={`p-5 rounded-2xl border ${isDark ? 'bg-white/4 border-white/8 hover:bg-white/8' : 'bg-white/70 border-gray-100 hover:shadow-md'}`}
                 >
-                  <div className={`text-2xl sm:text-3xl font-bold mb-1 ${metric.color === 'orange' ? 'text-orange-600 dark:text-orange-400' : 'text-sky-600 dark:text-sky-400'}`}>
-                    {metric.number}
-                  </div>
-                  <div className="text-xs opacity-60 font-medium leading-tight">{metric.label}</div>
-                </div>
+                  <AnimatedCounter
+                    value={metric.number}
+                    label={metric.label}
+                    numberClassName={`text-2xl sm:text-3xl font-bold ${metric.color === 'orange' ? 'text-orange-600 dark:text-orange-400' : 'text-sky-600 dark:text-sky-400'}`}
+                    className="text-left [&>div:last-child]:text-xs [&>div:last-child]:leading-tight [&>div]:justify-start"
+                  />
+                </motion.div>
               ))}
             </motion.div>
           </div>
         </div>
       </section>
+
+      {/* ── MARQUEE ───────────────────────────────────────────────────── */}
+      <div className={`py-5 border-y border-current/8 ${isDark ? 'bg-white/3' : 'bg-black/2'}`} aria-hidden="true">
+        <InfiniteMarquee speed={28}>
+          {TALENT_MARQUEE.map((item) => (
+            <span key={item} className="inline-flex items-center gap-3 text-sm font-semibold tracking-widest uppercase opacity-35 mr-10">
+              <span className="w-1.5 h-1.5 rounded-full bg-orange-500 inline-block flex-shrink-0" />
+              {item}
+            </span>
+          ))}
+        </InfiniteMarquee>
+      </div>
 
       {/* ── SERVICES ──────────────────────────────────────────────────── */}
       <section className={`px-4 sm:px-6 lg:px-8 py-20 sm:py-28 border-t border-current/8 ${isDark ? 'bg-white/2' : 'bg-black/2'}`} aria-labelledby="talent-services-heading">
@@ -177,18 +217,18 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {services.map((service, index) => (
-              <motion.article
+              <motion.div
                 key={service.title}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: (index % 3) * 0.08 }}
-                className={`group relative p-6 sm:p-8 rounded-2xl border transition-all duration-300 ${
-                  isDark
-                    ? 'bg-white/4 border-white/8 hover:bg-white/8 hover:border-orange-400/30'
-                    : 'bg-white/70 border-gray-100 hover:bg-white hover:border-orange-200 hover:shadow-lg'
-                }`}
               >
+              <TiltCard className={`relative p-6 sm:p-8 rounded-2xl border transition-all duration-300 h-full ${
+                  isDark
+                    ? `bg-white/4 border-white/8 hover:bg-white/8 ${service.accent === 'orange' ? 'hover:border-orange-400/30 hover:shadow-[0_16px_40px_-8px_rgba(234,88,12,0.18)]' : 'hover:border-sky-400/30 hover:shadow-[0_16px_40px_-8px_rgba(14,165,233,0.18)]'}`
+                    : `bg-white/70 border-gray-100 hover:bg-white hover:shadow-lg ${service.accent === 'orange' ? 'hover:border-orange-200' : 'hover:border-sky-200'}`
+                }`}>
                 <div className="flex items-start justify-between mb-6">
                   <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${
                     service.accent === 'orange'
@@ -209,7 +249,8 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
                     </li>
                   ))}
                 </ul>
-              </motion.article>
+              </TiltCard>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -233,18 +274,18 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {process.map((phase, index) => (
-              <motion.article
+              <motion.div
                 key={phase.step}
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`relative overflow-hidden p-7 sm:p-9 rounded-2xl border transition-all duration-300 ${
+              >
+              <TiltCard className={`relative overflow-hidden p-7 sm:p-9 rounded-2xl border transition-all duration-300 h-full ${
                   isDark
                     ? 'bg-white/4 border-white/8 hover:bg-white/7'
                     : 'bg-white/70 border-gray-100 hover:bg-white hover:shadow-md'
-                }`}
-              >
+                }`}>
                 <div className="absolute top-6 right-6 text-7xl font-bold opacity-[0.04] select-none leading-none">
                   {phase.step}
                 </div>
@@ -253,7 +294,8 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
                   <h3 className="font-bold text-xl mb-3">{phase.title}</h3>
                   <p className="text-base opacity-65 leading-relaxed">{phase.description}</p>
                 </div>
-              </motion.article>
+              </TiltCard>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -312,13 +354,15 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
               <p className="text-lg opacity-70 mb-10 leading-relaxed">
                 Tell us about your talent needs and we'll craft a recruitment strategy that works.
               </p>
-              <button
-                onClick={() => onNavigate('contact')}
-                className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-orange-700 rounded-2xl hover:bg-orange-50 transition-all duration-300 hover:scale-105 font-semibold focus:outline-none focus:ring-4 focus:ring-white/50 min-h-[52px]"
-              >
-                <span>Start Hiring Today</span>
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-              </button>
+              <MagneticWrapper>
+                <button
+                  onClick={() => onNavigate('contact')}
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-orange-700 rounded-2xl hover:bg-orange-50 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-white/50 min-h-[52px]"
+                >
+                  <span>Start Hiring Today</span>
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                </button>
+              </MagneticWrapper>
             </div>
           </motion.div>
         </div>

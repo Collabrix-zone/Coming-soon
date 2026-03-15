@@ -1,12 +1,18 @@
 import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight, Sparkles, Palette, Users, Award, TrendingUp, Zap, Globe } from 'lucide-react';
+import { AnimatedCounter } from './AnimatedCounter';
+import { Typewriter } from './Typewriter';
+import { MagneticWrapper } from './MagneticWrapper';
+import { InfiniteMarquee } from './InfiniteMarquee';
+import { TiltCard } from './TiltCard';
+import { WordReveal } from './WordReveal';
 
 interface HomePageProps {
   isDark: boolean;
   onNavigate: (page: string) => void;
 }
 
-const marqueeItems = [
+const MARQUEE_ITEMS = [
   'UX/UI Design', 'Talent Acquisition', 'Brand Identity', 'Executive Search',
   'Product Design', 'HR Consulting', 'Design Systems', 'Team Building',
   'Mobile Apps', 'Leadership Hiring', 'Web Design', 'Talent Strategy',
@@ -18,6 +24,16 @@ const stats = [
   { number: '98%', label: 'Client Satisfaction', color: 'text-sky-600 dark:text-sky-400' },
   { number: '50+', label: 'Happy Clients', color: 'text-orange-600 dark:text-orange-400' },
 ];
+
+// Deterministic floating particles (avoids re-randomization on render)
+const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
+  id: i,
+  x: (i * 37 + 13) % 100,
+  y: (i * 47 + 7) % 100,
+  size: (i % 3) + 1.5,
+  duration: 4 + (i % 6),
+  delay: (i * 0.35) % 4,
+}));
 
 export function HomePage({ isDark, onNavigate }: HomePageProps) {
   return (
@@ -34,6 +50,19 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
           transition={{ duration: 1.2, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-sky-600/50 to-transparent origin-left"
         />
+
+        {/* Floating particles */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          {PARTICLES.map((p) => (
+            <motion.div
+              key={p.id}
+              className="absolute rounded-full bg-sky-600/20 dark:bg-sky-400/15"
+              style={{ left: `${p.x}%`, top: `${p.y}%`, width: p.size, height: p.size }}
+              animate={{ y: [0, -14, 0], opacity: [0.25, 0.65, 0.25] }}
+              transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: 'easeInOut' }}
+            />
+          ))}
+        </div>
 
         <div className="max-w-7xl mx-auto">
           {/* Headline */}
@@ -71,37 +100,57 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
                 </span>
               </motion.h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
+                transition={{ duration: 0.7, delay: 0.28 }}
+                className="flex items-center gap-2 mb-5"
+              >
+                <span className="text-sm font-semibold uppercase tracking-widest opacity-45">We specialize in</span>
+                <Typewriter
+                  words={['UX/UI Excellence', 'Talent Acquisition', 'Brand Strategy', 'Product Design']}
+                  className="text-sm font-bold text-sky-600 dark:text-sky-400"
+                />
+              </motion.div>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.32 }}
                 className="text-lg sm:text-xl opacity-65 max-w-xl leading-relaxed mb-10"
               >
-                Collabrix is a premium studio delivering world-class UX/UI design
-                and strategic talent acquisition—two superpowers, one seamless partner.
+                <WordReveal
+                  text="Collabrix is a premium studio delivering world-class UX/UI design and strategic talent acquisition—two superpowers, one seamless partner."
+                  delay={0.35}
+                  stagger={0.04}
+                />
               </motion.p>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
                 className="flex flex-wrap gap-4"
               >
-                <button
-                  onClick={() => onNavigate('contact')}
-                  className="group inline-flex items-center gap-3 px-7 py-4 bg-sky-800 dark:bg-sky-600 text-white rounded-2xl hover:bg-orange-600 dark:hover:bg-orange-600 transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
-                  aria-label="Get started with Collabrix"
-                >
-                  <span className="font-semibold">Get Started</span>
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                </button>
-                <button
-                  onClick={() => onNavigate('work')}
-                  className="group inline-flex items-center gap-3 px-7 py-4 border-2 border-current/20 rounded-2xl hover:border-sky-600 dark:hover:border-sky-400 hover:text-sky-700 dark:hover:text-sky-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
-                >
-                  <span className="font-semibold opacity-70 group-hover:opacity-100">View Our Work</span>
-                  <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
-                </button>
+                <MagneticWrapper>
+                  <button
+                    onClick={() => onNavigate('contact')}
+                    className="group inline-flex items-center gap-3 px-7 py-4 bg-sky-800 dark:bg-sky-600 text-white rounded-2xl hover:bg-orange-600 dark:hover:bg-orange-600 transition-all duration-300 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
+                    aria-label="Get started with Collabrix"
+                  >
+                    <span className="font-semibold">Get Started</span>
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                  </button>
+                </MagneticWrapper>
+                <MagneticWrapper>
+                  <button
+                    onClick={() => onNavigate('work')}
+                    className="group inline-flex items-center gap-3 px-7 py-4 border-2 border-current/20 rounded-2xl hover:border-sky-600 dark:hover:border-sky-400 hover:text-sky-700 dark:hover:text-sky-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
+                  >
+                    <span className="font-semibold opacity-70 group-hover:opacity-100">View Our Work</span>
+                    <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+                  </button>
+                </MagneticWrapper>
               </motion.div>
             </div>
 
@@ -162,21 +211,17 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
 
         {/* Marquee strip */}
         <div
-          className={`relative overflow-hidden py-5 border-y border-current/8 ${isDark ? 'bg-white/3' : 'bg-black/2'}`}
+          className={`py-5 border-y border-current/8 ${isDark ? 'bg-white/3' : 'bg-black/2'}`}
           aria-hidden="true"
         >
-          <motion.div
-            animate={{ x: ['0%', '-50%'] }}
-            transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-            className="flex gap-10 whitespace-nowrap"
-          >
-            {[...marqueeItems, ...marqueeItems].map((item, i) => (
-              <span key={i} className="inline-flex items-center gap-3 text-sm font-semibold tracking-widest uppercase opacity-40">
+          <InfiniteMarquee speed={32}>
+            {MARQUEE_ITEMS.map((item) => (
+              <span key={item} className="inline-flex items-center gap-3 text-sm font-semibold tracking-widest uppercase opacity-40 mr-10">
                 <span className="w-1.5 h-1.5 rounded-full bg-orange-500 inline-block flex-shrink-0" />
                 {item}
               </span>
             ))}
-          </motion.div>
+          </InfiniteMarquee>
         </div>
       </section>
 
@@ -203,19 +248,21 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
-              className={`group relative overflow-hidden rounded-3xl p-8 sm:p-10 lg:p-12 border transition-all duration-500 cursor-pointer ${
-                isDark
-                  ? 'bg-gradient-to-br from-sky-950/60 to-sky-900/20 border-sky-800/30 hover:border-sky-600/50'
-                  : 'bg-gradient-to-br from-sky-50 to-white border-sky-100 hover:border-sky-300'
-              }`}
               onClick={() => onNavigate('design')}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && onNavigate('design')}
               aria-label="Explore Design Services"
             >
+            <TiltCard className={`group relative overflow-hidden rounded-3xl p-8 sm:p-10 lg:p-12 border transition-all duration-500 cursor-pointer ${
+                isDark
+                  ? 'bg-gradient-to-br from-sky-950/60 to-sky-900/20 border-sky-800/30 hover:border-sky-600/50 hover:shadow-[0_8px_40px_-8px_rgba(14,165,233,0.25)]'
+                  : 'bg-gradient-to-br from-sky-50 to-white border-sky-100 hover:border-sky-300 hover:shadow-[0_8px_40px_-8px_rgba(14,165,233,0.2)]'
+              }`}>
               {/* Accent orb */}
               <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-sky-500/10 dark:bg-sky-400/10 blur-3xl group-hover:scale-150 transition-transform duration-700" aria-hidden="true" />
+              {/* Shimmer sweep */}
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/8 to-transparent pointer-events-none" aria-hidden="true" />
 
               <div className="relative">
                 <div className="flex items-start justify-between mb-10">
@@ -241,6 +288,7 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
                   <ArrowRight size={18} aria-hidden="true" />
                 </div>
               </div>
+            </TiltCard>
             </motion.article>
 
             {/* Talent card */}
@@ -249,18 +297,20 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className={`group relative overflow-hidden rounded-3xl p-8 sm:p-10 lg:p-12 border transition-all duration-500 cursor-pointer ${
-                isDark
-                  ? 'bg-gradient-to-br from-orange-950/60 to-orange-900/20 border-orange-800/30 hover:border-orange-600/50'
-                  : 'bg-gradient-to-br from-orange-50 to-white border-orange-100 hover:border-orange-300'
-              }`}
               onClick={() => onNavigate('talent')}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && onNavigate('talent')}
               aria-label="Explore Talent Services"
             >
+            <TiltCard className={`group relative overflow-hidden rounded-3xl p-8 sm:p-10 lg:p-12 border transition-all duration-500 cursor-pointer ${
+                isDark
+                  ? 'bg-gradient-to-br from-orange-950/60 to-orange-900/20 border-orange-800/30 hover:border-orange-600/50 hover:shadow-[0_8px_40px_-8px_rgba(234,88,12,0.25)]'
+                  : 'bg-gradient-to-br from-orange-50 to-white border-orange-100 hover:border-orange-300 hover:shadow-[0_8px_40px_-8px_rgba(234,88,12,0.2)]'
+              }`}>
               <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-orange-500/10 dark:bg-orange-400/10 blur-3xl group-hover:scale-150 transition-transform duration-700" aria-hidden="true" />
+              {/* Shimmer sweep */}
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/8 to-transparent pointer-events-none" aria-hidden="true" />
 
               <div className="relative">
                 <div className="flex items-start justify-between mb-10">
@@ -286,6 +336,7 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
                   <ArrowRight size={18} aria-hidden="true" />
                 </div>
               </div>
+            </TiltCard>
             </motion.article>
           </div>
         </div>
@@ -304,12 +355,13 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.08 }}
-              className="text-center"
             >
-              <div className={`text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 ${stat.color}`} aria-label={stat.number}>
-                {stat.number}
-              </div>
-              <div className="text-sm sm:text-base opacity-60 font-medium">{stat.label}</div>
+              <AnimatedCounter
+                value={stat.number}
+                label={stat.label}
+                className="text-center"
+                numberClassName={`text-4xl sm:text-5xl lg:text-6xl font-bold ${stat.color}`}
+              />
             </motion.div>
           ))}
         </div>
@@ -358,13 +410,18 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: i * 0.08 }}
-                  className={`p-6 rounded-2xl border transition-all duration-300 ${
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  className={`relative p-6 rounded-2xl border transition-all duration-300 overflow-hidden ${
                     isDark
                       ? 'bg-white/4 border-white/8 hover:bg-white/8 hover:border-white/15'
-                      : 'bg-white/70 border-gray-100 hover:bg-white hover:border-gray-200 hover:shadow-md'
+                      : 'bg-white/70 border-gray-100 hover:bg-white hover:border-gray-200 hover:shadow-lg'
                   }`}
                 >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 ${
+                  {/* Accent left border reveal */}
+                  <div className={`absolute left-0 top-0 w-[3px] h-0 group-hover:h-full rounded-l-2xl transition-all duration-500 ${
+                    item.accent === 'sky' ? 'bg-sky-600 dark:bg-sky-400' : 'bg-orange-500 dark:bg-orange-400'
+                  }`} aria-hidden="true" />
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 transition-transform duration-300 hover:scale-110 ${
                     item.accent === 'sky'
                       ? 'bg-sky-600/10 dark:bg-sky-400/10 text-sky-600 dark:text-sky-400'
                       : 'bg-orange-600/10 dark:bg-orange-400/10 text-orange-600 dark:text-orange-400'
@@ -412,19 +469,23 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
                 Whether you need exceptional design or world-class talent, we're ready to help you get there.
               </p>
               <div className="flex flex-wrap gap-4">
-                <button
-                  onClick={() => onNavigate('contact')}
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-sky-900 rounded-2xl hover:bg-orange-50 transition-all duration-300 hover:scale-105 font-semibold focus:outline-none focus:ring-4 focus:ring-white/50 min-h-[52px]"
-                >
-                  <span>Contact Us Today</span>
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                </button>
-                <button
-                  onClick={() => onNavigate('work')}
-                  className="inline-flex items-center gap-3 px-8 py-4 border-2 border-white/30 text-white rounded-2xl hover:border-white/60 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-white/30 min-h-[52px]"
-                >
-                  See Our Work
-                </button>
+                <MagneticWrapper>
+                  <button
+                    onClick={() => onNavigate('contact')}
+                    className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-sky-900 rounded-2xl hover:bg-orange-50 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-white/50 min-h-[52px]"
+                  >
+                    <span>Contact Us Today</span>
+                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                  </button>
+                </MagneticWrapper>
+                <MagneticWrapper>
+                  <button
+                    onClick={() => onNavigate('work')}
+                    className="inline-flex items-center gap-3 px-8 py-4 border-2 border-white/30 text-white rounded-2xl hover:border-white/60 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-white/30 min-h-[52px]"
+                  >
+                    See Our Work
+                  </button>
+                </MagneticWrapper>
               </div>
             </div>
           </motion.div>

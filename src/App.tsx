@@ -17,6 +17,7 @@ const WEBSITE_PAGES = ['about', 'design', 'talent', 'work', 'contact'];
 function resolveAppPage(path: string): Page {
   const clean = path.replace(/^\//, '').split('?')[0].split('#')[0];
   if (clean === '' || clean === 'home' || WEBSITE_PAGES.includes(clean)) return 'home';
+  if (clean.startsWith('work/')) return 'home';
   if (clean === 'privacy' || clean.includes('privacy')) return 'privacy';
   if (clean === 'terms' || clean.includes('terms')) return 'terms';
   return '404';

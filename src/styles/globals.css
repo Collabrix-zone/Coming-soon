@@ -350,6 +350,25 @@ html {
   white-space: normal;
 }
 
+/* Pointer cursor on all interactive elements — overrides CustomCursor's cursor:none on html */
+a,
+button,
+[role="button"],
+[role="link"],
+[role="tab"],
+[role="menuitem"],
+[role="option"],
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+input[type="radio"],
+input[type="checkbox"],
+select,
+label[for],
+summary {
+  cursor: pointer !important;
+}
+
 /* Focus visible for keyboard navigation - WCAG AAA */
 .focus\:not-sr-only:focus {
   clip: auto;

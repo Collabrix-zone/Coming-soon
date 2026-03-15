@@ -6,6 +6,7 @@ import { DesignPage } from './website/DesignPage';
 import { TalentPage } from './website/TalentPage';
 import { WorkPage } from './website/WorkPage';
 import { ContactPage } from './website/ContactPage';
+import { CaseStudyPage } from './website/CaseStudyPage';
 
 interface MainWebsiteProps {
   isDark: boolean;
@@ -13,21 +14,19 @@ interface MainWebsiteProps {
   onNavigate?: (page: 'privacy' | 'terms') => void;
 }
 
-type WebsitePage = 'home' | 'about' | 'design' | 'talent' | 'work' | 'contact';
+const VALID_PAGES = ['home', 'about', 'design', 'talent', 'work', 'contact'];
 
 export function MainWebsite({ isDark, toggleTheme, onNavigate }: MainWebsiteProps) {
-  const [currentPage, setCurrentPage] = useState<WebsitePage>(() => {
-    // Initialize from URL on first load
+  const [currentPage, setCurrentPage] = useState<string>(() => {
     const path = window.location.pathname.slice(1);
-    const validPages = ['home', 'about', 'design', 'talent', 'work', 'contact'];
-    return validPages.includes(path) ? (path as WebsitePage) : 'home';
+    if (VALID_PAGES.includes(path)) return path;
+    if (path.startsWith('work/')) return path;
+    return 'home';
   });
 
   const handlePageNavigate = (page: string) => {
-    setCurrentPage(page as WebsitePage);
+    setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    // Update URL for better UX (without page reload)
     const url = page === 'home' ? '/' : `/${page}`;
     window.history.pushState({}, '', url);
   };
@@ -36,7 +35,7 @@ export function MainWebsite({ isDark, toggleTheme, onNavigate }: MainWebsiteProp
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname.slice(1) || 'home';
-      setCurrentPage(path as WebsitePage);
+      setCurrentPage(path);
     };
 
     window.addEventListener('popstate', handlePopState);
@@ -44,6 +43,10 @@ export function MainWebsite({ isDark, toggleTheme, onNavigate }: MainWebsiteProp
   }, []);
 
   const renderPage = () => {
+    if (currentPage.startsWith('work/')) {
+      const slug = currentPage.slice(5);
+      return <CaseStudyPage slug={slug} isDark={isDark} onNavigate={handlePageNavigate} />;
+    }
     switch (currentPage) {
       case 'home':
         return <HomePage isDark={isDark} onNavigate={handlePageNavigate} />;
