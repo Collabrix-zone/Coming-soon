@@ -16,73 +16,71 @@ export function InfiniteMarquee({
   fadeEdges = true,
 }: InfiniteMarqueeProps) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const xRef = useRef(0);
-  const animRef = useRef<number>(0);
-  const copyWidthRef = useRef(0);
+  const copy1Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track) return;
+    const copy1 = copy1Ref.current;
+    if (!track || !copy1) return;
 
-    const measure = () => {
-      const copy1 = track.children[0] as HTMLElement;
-      if (copy1) copyWidthRef.current = copy1.offsetWidth;
+    const setWidth = () => {
+      const w = copy1.getBoundingClientRect().width;
+      if (w > 0) track.style.setProperty('--marquee-copy-width', `${w}px`);
     };
 
-    // Measure after fonts/layout settle
-    measure();
-    const t = setTimeout(measure, 200);
+    setWidth();
+    // Re-measure after fonts load
+    document.fonts.ready.then(setWidth);
 
-    const direction = reverse ? 1 : -1;
-
-    const tick = () => {
-      const copyWidth = copyWidthRef.current;
-      if (copyWidth > 0) {
-        // pixels per frame = copyWidth / (speed * 60fps)
-        xRef.current += direction * (copyWidth / (speed * 60));
-        // seamless reset: when we've scrolled exactly one copy, snap back to 0
-        if (xRef.current <= -copyWidth) xRef.current += copyWidth;
-        if (xRef.current >= copyWidth) xRef.current -= copyWidth;
-        track.style.transform = `translateX(${xRef.current}px)`;
-      }
-      animRef.current = requestAnimationFrame(tick);
-    };
-
-    animRef.current = requestAnimationFrame(tick);
-
-    const ro = new ResizeObserver(measure);
-    ro.observe(track);
-
-    return () => {
-      cancelAnimationFrame(animRef.current);
-      clearTimeout(t);
-      ro.disconnect();
-    };
-  }, [speed, reverse]);
+    const ro = new ResizeObserver(setWidth);
+    ro.observe(copy1);
+    return () => ro.disconnect();
+  }, []);
 
   return (
-    <div
-      className={`overflow-hidden ${className}`}
-      style={
-        fadeEdges
-          ? {
-              maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-              WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-            }
-          : undefined
-      }
-    >
+    <>
+      <style>{`
+        @keyframes collabrix-marquee {
+          from { transform: translateX(0); }
+          to   { transform: translateX(calc(-1 * var(--marquee-copy-width, 0px))); }
+        }
+      `}</style>
+
       <div
-        ref={trackRef}
-        style={{ display: 'flex', willChange: 'transform', whiteSpace: 'nowrap' }}
+        className={`overflow-hidden ${className}`}
+        style={
+          fadeEdges
+            ? {
+                maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+                WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+              }
+            : undefined
+        }
       >
-        <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
-          {children}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }} aria-hidden="true">
-          {children}
+        <div
+          ref={trackRef}
+          style={{
+            display: 'flex',
+            width: 'max-content',
+            willChange: 'transform',
+            animation: `collabrix-marquee ${speed}s linear infinite`,
+            animationDirection: reverse ? 'reverse' : 'normal',
+          }}
+        >
+          <div
+            ref={copy1Ref}
+            style={{ display: 'flex', alignItems: 'center', flexShrink: 0, whiteSpace: 'nowrap' }}
+          >
+            {children}
+          </div>
+          <div
+            style={{ display: 'flex', alignItems: 'center', flexShrink: 0, whiteSpace: 'nowrap' }}
+            aria-hidden="true"
+          >
+            {children}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
