@@ -142,7 +142,7 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </button>
                 </MagneticWrapper>
-                <MagneticWrapper>
+                {/* <MagneticWrapper>
                   <button
                     onClick={() => onNavigate('work')}
                     className="group inline-flex items-center gap-3 px-7 py-4 border-2 border-current/20 rounded-2xl hover:border-sky-600 dark:hover:border-sky-400 hover:text-sky-700 dark:hover:text-sky-400 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
@@ -150,7 +150,7 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
                     <span className="font-semibold opacity-70 group-hover:opacity-100">View Our Work</span>
                     <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
                   </button>
-                </MagneticWrapper>
+                </MagneticWrapper> */}
               </motion.div>
             </div>
 
@@ -346,7 +346,7 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
       </section>
 
       {/* ── STATS ─────────────────────────────────────────────────────── */}
-      <section
+      {/* <section
         className={`px-4 sm:px-6 lg:px-8 py-16 sm:py-20 border-y border-current/8 ${isDark ? 'bg-white/2' : 'bg-black/2'}`}
         aria-label="Key statistics"
       >
@@ -368,7 +368,7 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
             </motion.div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       {/* ── WHY COLLABRIX ─────────────────────────────────────────────── */}
       <section className="px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36" aria-labelledby="why-heading">
@@ -481,14 +481,14 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </button>
                 </MagneticWrapper>
-                <MagneticWrapper>
+                {/* <MagneticWrapper>
                   <button
                     onClick={() => onNavigate('work')}
                     className="inline-flex items-center gap-3 px-8 py-4 border-2 border-white/30 text-white rounded-2xl hover:border-white/60 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-white/30 min-h-[52px]"
                   >
                     See Our Work
                   </button>
-                </MagneticWrapper>
+                </MagneticWrapper> */}
               </div>
             </div>
           </motion.div>

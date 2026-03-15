@@ -56,8 +56,8 @@ export function MainWebsite({ isDark, toggleTheme, onNavigate }: MainWebsiteProp
         return <DesignPage isDark={isDark} onNavigate={handlePageNavigate} />;
       case 'talent':
         return <TalentPage isDark={isDark} onNavigate={handlePageNavigate} />;
-      case 'work':
-        return <WorkPage isDark={isDark} onNavigate={handlePageNavigate} />;
+      // case 'work':
+      //   return <WorkPage isDark={isDark} onNavigate={handlePageNavigate} />;
       case 'contact':
         return <ContactPage isDark={isDark} />;
       default:

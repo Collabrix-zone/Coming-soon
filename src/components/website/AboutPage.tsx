@@ -172,7 +172,7 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
       </section>
 
       {/* ── TIMELINE ──────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 lg:px-8 py-20 sm:py-28" aria-labelledby="timeline-heading">
+      {/* <section className="px-4 sm:px-6 lg:px-8 py-20 sm:py-28" aria-labelledby="timeline-heading">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -196,9 +196,9 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
               >
               <TiltCard className={`relative p-6 sm:p-8 rounded-2xl border h-full ${
                   isDark ? 'bg-white/4 border-white/8' : 'bg-white/70 border-gray-100'
-                }`}>
+                }`}> */}
                 {/* Connector line */}
-                {i < milestones.length - 1 && (
+                {/* {i < milestones.length - 1 && (
                   <div className="hidden lg:block absolute top-10 left-full w-6 h-px bg-current/15 z-10" aria-hidden="true" />
                 )}
                 <div className="text-4xl font-bold text-sky-600 dark:text-sky-400 opacity-30 mb-4 select-none">{m.year}</div>
@@ -209,7 +209,7 @@ export function AboutPage({ isDark, onNavigate }: AboutPageProps) {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ── VALUES ────────────────────────────────────────────────────── */}
       <section className={`px-4 sm:px-6 lg:px-8 py-20 sm:py-28 border-t border-current/8 ${isDark ? 'bg-white/2' : 'bg-black/2'}`} aria-labelledby="values-heading">

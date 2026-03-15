@@ -76,12 +76,12 @@ const process = [
   { step: '04', title: 'Placement & Onboarding', description: 'We facilitate the entire hiring process and provide onboarding support to ensure a smooth, successful transition for both parties.' },
 ];
 
-const metrics = [
-  { number: '500+', label: 'Successful Placements', color: 'orange' },
-  { number: '92%', label: 'Retention at 12 Months', color: 'sky' },
-  { number: '21 Days', label: 'Average Time-to-Hire', color: 'orange' },
-  { number: '15+', label: 'Industries Served', color: 'sky' },
-];
+// const metrics = [
+//   { number: '500+', label: 'Successful Placements', color: 'orange' },
+//   { number: '92%', label: 'Retention at 12 Months', color: 'sky' },
+//   { number: '21 Days', label: 'Average Time-to-Hire', color: 'orange' },
+//   { number: '15+', label: 'Industries Served', color: 'sky' },
+// ];
 
 export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
   return (
@@ -149,7 +149,7 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </button>
                 </MagneticWrapper>
-                <MagneticWrapper>
+                {/* <MagneticWrapper>
                   <button
                     onClick={() => onNavigate('work')}
                     className="group inline-flex items-center gap-3 px-7 py-4 border-2 border-current/20 rounded-2xl hover:border-orange-600 dark:hover:border-orange-400 hover:text-orange-700 dark:hover:text-orange-400 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-orange-600 dark:focus:ring-orange-400 min-h-[52px]"
@@ -157,7 +157,7 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
                     <span className="opacity-70 group-hover:opacity-100">View Placements</span>
                     <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
                   </button>
-                </MagneticWrapper>
+                </MagneticWrapper> */}
               </motion.div>
             </div>
 
@@ -169,7 +169,7 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
               className="lg:col-span-4 grid grid-cols-2 gap-4"
               aria-label="Talent metrics"
             >
-              {metrics.map((metric) => (
+              {/* {metrics.map((metric) => (
                 <motion.div
                   key={metric.label}
                   whileHover={{ y: -3, scale: 1.03 }}
@@ -183,7 +183,7 @@ export function TalentPage({ isDark, onNavigate }: TalentPageProps) {
                     className="text-left [&>div:last-child]:text-xs [&>div:last-child]:leading-tight [&>div]:justify-start"
                   />
                 </motion.div>
-              ))}
+              ))} */}
             </motion.div>
           </div>
         </div>

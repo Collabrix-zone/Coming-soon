@@ -10,11 +10,11 @@ import { TiltCard } from './TiltCard';
 import { WordReveal } from './WordReveal';
 import { projects } from '../../data/projects';
 
-const WORK_MARQUEE = [
-  '+65% Engagement', '2M+ Users', '15 Hires in 60 Days', '100% Retention',
-  '3 Hospitals Launched', 'Global Launch', '12 Designers Placed', '+40% Retention',
-  '150+ Projects', '500+ Placements', '98% Satisfaction', '50+ Clients',
-];
+// const WORK_MARQUEE = [
+//   '+65% Engagement', '2M+ Users', '15 Hires in 60 Days', '100% Retention',
+//   '3 Hospitals Launched', 'Global Launch', '12 Designers Placed', '+40% Retention',
+//   '150+ Projects', '500+ Placements', '98% Satisfaction', '50+ Clients',
+// ];
 
 interface WorkPageProps {
   isDark: boolean;
@@ -112,7 +112,7 @@ export function WorkPage({ isDark, onNavigate }: WorkPageProps) {
       </section>
 
       {/* ── MARQUEE ───────────────────────────────────────────────────── */}
-      <div className={`py-5 border-y border-current/8 ${isDark ? 'bg-white/3' : 'bg-black/2'}`} aria-hidden="true">
+      {/* <div className={`py-5 border-y border-current/8 ${isDark ? 'bg-white/3' : 'bg-black/2'}`} aria-hidden="true">
         <InfiniteMarquee speed={32}>
           {WORK_MARQUEE.map((item) => (
             <span key={item} className="inline-flex items-center gap-3 text-sm font-semibold tracking-widest uppercase opacity-35 mr-10">
@@ -121,7 +121,7 @@ export function WorkPage({ isDark, onNavigate }: WorkPageProps) {
             </span>
           ))}
         </InfiniteMarquee>
-      </div>
+      </div> */}
 
       {/* ── PROJECTS ──────────────────────────────────────────────────── */}
       <section className="px-4 sm:px-6 lg:px-8 py-20 sm:py-28" aria-labelledby="projects-heading">

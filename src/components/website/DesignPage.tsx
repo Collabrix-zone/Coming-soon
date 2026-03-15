@@ -43,16 +43,16 @@ const services = [
     features: ['Product Strategy', 'Design Systems', 'Interaction Design', 'Launch Support'],
     accent: 'orange',
   },
+  // {
+  //   num: '03',
+  //   icon: <Target size={26} />,
+  //   title: 'Brand Identity',
+  //   description: 'Cohesive visual identities that stand out in any market. We craft brands that resonate deeply with your audience and authentically reflect your values.',
+  //   features: ['Brand Strategy', 'Logo Design', 'Visual Guidelines', 'Brand Collateral'],
+  //   accent: 'sky',
+  // },
   {
     num: '03',
-    icon: <Target size={26} />,
-    title: 'Brand Identity',
-    description: 'Cohesive visual identities that stand out in any market. We craft brands that resonate deeply with your audience and authentically reflect your values.',
-    features: ['Brand Strategy', 'Logo Design', 'Visual Guidelines', 'Brand Collateral'],
-    accent: 'sky',
-  },
-  {
-    num: '04',
     icon: <Smartphone size={26} />,
     title: 'Mobile App Design',
     description: 'Native and cross-platform mobile experiences that engage users on iOS and Android — designed for the platform, built for real people.',
@@ -60,7 +60,7 @@ const services = [
     accent: 'orange',
   },
   {
-    num: '05',
+    num: '04',
     icon: <Monitor size={26} />,
     title: 'Web Design',
     description: 'Responsive websites that work beautifully across all devices and screen sizes, from marketing sites to complex web applications.',
@@ -68,7 +68,7 @@ const services = [
     accent: 'sky',
   },
   {
-    num: '06',
+    num: '05',
     icon: <PenTool size={26} />,
     title: 'Design Consulting',
     description: 'Expert guidance to elevate your design practice. We help you audit existing work, train teams, and build processes that scale.',
@@ -162,7 +162,7 @@ export function DesignPage({ isDark, onNavigate }: DesignPageProps) {
                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </button>
                 </MagneticWrapper>
-                <MagneticWrapper>
+                {/* <MagneticWrapper>
                   <button
                     onClick={() => onNavigate('work')}
                     className="group inline-flex items-center gap-3 px-7 py-4 border-2 border-current/20 rounded-2xl hover:border-sky-600 dark:hover:border-sky-400 hover:text-sky-700 dark:hover:text-sky-400 transition-all duration-300 font-semibold focus:outline-none focus:ring-4 focus:ring-sky-600 dark:focus:ring-sky-400 min-h-[52px]"
@@ -170,7 +170,7 @@ export function DesignPage({ isDark, onNavigate }: DesignPageProps) {
                     <span className="opacity-70 group-hover:opacity-100">View Design Work</span>
                     <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
                   </button>
-                </MagneticWrapper>
+                </MagneticWrapper> */}
               </motion.div>
             </div>
 

@@ -20,7 +20,7 @@ interface ContactPageProps {
 type ServiceOption = 'design' | 'talent' | 'both' | 'other';
 
 const serviceOptions: { value: ServiceOption; label: string; description: string }[] = [
-  { value: 'design', label: 'Design Services', description: 'UX/UI, product design, branding' },
+  { value: 'design', label: 'Design Services', description: 'UX/UI, product design' },
   { value: 'talent', label: 'Talent Services', description: 'Recruitment, executive search, HR' },
   { value: 'both', label: 'Both Services', description: 'Full design & talent partnership' },
   { value: 'other', label: 'Something Else', description: 'Let\'s talk about your needs' },
@@ -118,7 +118,7 @@ export function ContactPage({ isDark }: ContactPageProps) {
           ))}
         </InfiniteMarquee>
       </div>
-
+<br></br>
       {/* ── MAIN CONTACT ──────────────────────────────────────────────── */}
       <section className="px-4 sm:px-6 lg:px-8 pb-20 sm:pb-28" aria-labelledby="form-heading">
         <div className="max-w-7xl mx-auto">
@@ -379,7 +379,7 @@ export function ContactPage({ isDark }: ContactPageProps) {
               </div>
 
               {/* Quick CTA */}
-              <div className={`relative overflow-hidden p-6 rounded-2xl border ${
+              {/* <div className={`relative overflow-hidden p-6 rounded-2xl border ${
                 isDark
                   ? 'bg-gradient-to-br from-orange-950/80 to-orange-900/30 border-orange-800/40'
                   : 'bg-gradient-to-br from-orange-50 to-white border-orange-100'
@@ -396,7 +396,7 @@ export function ContactPage({ isDark }: ContactPageProps) {
                   <span>Request a Call</span>
                   <ArrowRight size={15} aria-hidden="true" />
                 </a>
-              </div>
+              </div> */}
             </motion.aside>
           </div>
         </div>

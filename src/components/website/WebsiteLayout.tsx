@@ -46,7 +46,7 @@ export function WebsiteLayout({
     { name: 'About', path: 'about' },
     { name: 'Design', path: 'design' },
     { name: 'Talent', path: 'talent' },
-    { name: 'Work', path: 'work' },
+    // { name: 'Work', path: 'work' },
     { name: 'Contact', path: 'contact' },
   ];
 
