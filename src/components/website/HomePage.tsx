@@ -209,14 +209,17 @@ export function HomePage({ isDark, onNavigate }: HomePageProps) {
           </div>
         </div>
 
-        {/* Marquee strip */}
+        {/* Marquee strip — animated, non-overlapping */}
         <div
           className={`py-5 border-y border-current/8 ${isDark ? 'bg-white/3' : 'bg-black/2'}`}
           aria-hidden="true"
         >
           <InfiniteMarquee speed={32}>
             {MARQUEE_ITEMS.map((item) => (
-              <span key={item} className="inline-flex items-center gap-3 text-sm font-semibold tracking-widest uppercase opacity-40 mr-10">
+              <span
+                key={item}
+                className="inline-flex items-center gap-3 text-sm font-semibold tracking-widest uppercase opacity-40 mr-14 whitespace-nowrap"
+              >
                 <span className="w-1.5 h-1.5 rounded-full bg-orange-500 inline-block flex-shrink-0" />
                 {item}
               </span>
